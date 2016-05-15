@@ -7,7 +7,7 @@ var tirageServices = angular.module('tirageServices', ['ngResource']);
 // http://lagrangien.jelastic.servint.net/tiragebom/webapi/tirage/initparticipants
 
 tirageServices.factory('Tirages', ['$resource', function($resource) {
-  return $resource('https://lagrangien.fr/backoffice/createtirage', {}, {
+  return $resource('https://www.lagrangien.fr/backoffice/createtirage', {}, {
     save: {
       method: 'POST',
       headers: {
@@ -18,7 +18,7 @@ tirageServices.factory('Tirages', ['$resource', function($resource) {
 }]);
 
 tirageServices.factory('Tirage', ['$resource', function($resource) {
-  return $resource('https://lagrangien.fr/tirage/tire', {}, {
+  return $resource('https://www.lagrangien.fr/tirage/tire', {}, {
     save: {
       method: 'POST',
       headers: {
@@ -29,7 +29,7 @@ tirageServices.factory('Tirage', ['$resource', function($resource) {
 }]);
 
 tirageServices.factory('Resultats', ['$resource', function($resource) {
-  return $resource('https://lagrangien.fr/backoffice/results/:company', {}, {
+  return $resource('https://www.lagrangien.fr/backoffice/results/:company', {}, {
     'query': {
       method: 'GET', isArray:true
     }
@@ -37,7 +37,7 @@ tirageServices.factory('Resultats', ['$resource', function($resource) {
 }]);
 
 tirageServices.factory('Resultat', ['$resource', function($resource) {
-  return $resource('https://lagrangien.fr/backoffice/result/:email/:secureCode/:company', {}, {
+  return $resource('https://www.lagrangien.fr/backoffice/result/:email/:secureCode/:company', {}, {
     'query': {
       method: 'GET', isArray:false
     }
@@ -45,7 +45,7 @@ tirageServices.factory('Resultat', ['$resource', function($resource) {
 }]);
 
 tirageServices.factory('Compagny', ['$resource', function($resource) {
-  return $resource('https://lagrangien.fr/backoffice/verifycompany/:company', {}, {
+  return $resource('https://www.lagrangien.fr/backoffice/verifycompany/:company', {}, {
     'query': {
       method: 'GET', isArray:true
     }
