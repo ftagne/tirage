@@ -19,7 +19,7 @@ tirageControllers.controller('homeCtrl', ['$scope', '$rootScope', '$routeParams'
         $rootScope.verifierCompagny = function(text) {
             if (text && text.length > 0) {
                 $rootScope.loaderEnabled = false;
-                Compagny.query({
+                Compagny.get({
                     company: text
                 }, function success(data) {
                     if (data === false) {
@@ -48,13 +48,13 @@ tirageControllers.controller('homeCtrl', ['$scope', '$rootScope', '$routeParams'
         $scope.init = function() {
 
             $rootScope.candidats = [{
-                "id": "0",
-                "email": "",
-                "secureCode": ""
+                id: "0",
+                email: "",
+                secureCode: ""
             }, {
-                "id": "1",
-                "email": "",
-                "secureCode": ""
+                id: "1",
+                email: "",
+                secureCode: ""
             }];
         };
 
@@ -66,24 +66,24 @@ tirageControllers.controller('homeCtrl', ['$scope', '$rootScope', '$routeParams'
         };
 
         $scope.supprimerLigne = function(p_candidat) {
-            $rootScope.candidats = $rootScope.candidats.reject(function(c) {
+            $rootScope.candidats = _.reject($rootScope.candidats, function(c) {
                 return c.id == p_candidat.id;
             });
         };
 
         $scope.create = function() {
-
-            var userList = "{initUserList:" + JSON.stringify($rootScope.candidats) + "}";
-            var company = $scope.company;
+            var userList = {
+                    company : $scope.company,
+                    notificationEnabled : true,
+                    userListRequest: $rootScope.candidats
+                  };
             Tirages.save({
-                    'company': company,
-                    'users': userList
+                    'createtirage': JSON.stringify(userList)
                 }, function success() {
                     fAlert.success("enregistrer avec succes !", {
                         timeout: 3000
                     });
                     //backup for next page
-                    $rootScope.company = company;
                     $location.path('/tirage-dashboard');
                 },
                 function error(e) {
@@ -163,19 +163,48 @@ tirageControllers.controller('resultCtrl', ['$scope', '$rootScope', '$routeParam
     }
 ]);
 
-tirageControllers.controller('tirage-dashboardCtrl', ['$scope', '$rootScope', '$routeParams', '$location', '$log', 'fAlert',
-    function($scope, $rootScope, $routeParams, $location, $log, fAlert) {
+tirageControllers.controller('tirage-dashboardCtrl', ['$scope', '$rootScope', '$routeParams', '$location', '$log', 'fAlert','Resultats',
+    function($scope, $rootScope, $routeParams, $location, $log, fAlert, Resultats) {
 
-        $scope.candidats = $rootScope.candidats !== undefined ? $rootScope.candidats : {};
-        $scope.company = $rootScope.company !== undefined ? $rootScope.company : '';
-
-        $scope.buildLink = function() {
-            for (var i = 0; i < $scope.candidats.length; i++) {
-                $scope.candidats[i].link = '#/tirage/' + $scope.company + '/' + $scope.candidats[i].email;
-                $scope.candidats[i].numero = '';
+        $scope.company = $routeParams.company;
+        $scope.candidats = [];
+        $scope.buildLink = function(candidats) {
+          $log.info('length ' +   candidats);
+            for (var i = 0; i < candidats.length; i++) {
+                candidats[i].link = '#/tirage/' + $scope.company + '/' + candidats[i].email;
+                //candidats[i].numero = '';
             }
         };
 
+        $scope.init = function() {
+            $log.info('resultCtrl - charger les results');
+            Resultats.query({
+                company: $scope.company
+            }, function success(data) {
+
+                $scope.candidats = data;
+                $log.info('candidats ' +   $scope.candidats);
+                $scope.buildLink($scope.candidats);
+            }, function error(e) {
+                fAlert.error("une erreur s'est produite : " + e.statusText, {
+                    timeout: 3000
+                });
+            });
+        };
+
+
+    }
+]);
+
+tirageControllers.controller('consulterCtrl', ['$scope', '$rootScope', '$routeParams', '$location', '$log', 'fAlert', 'Resultats',
+    function($scope, $rootScope, $routeParams, $location, $log, fAlert, Resultats) {
+        $scope.resultats = [];
+        $scope.consulter = function() {
+          var routePath = '/tirage-dashboard/' + $scope.candidat.company;
+          $location.path(routePath);
+            $log.info('resultCtrl - charger les results');
+
+        };
 
     }
 ]);

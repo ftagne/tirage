@@ -13,7 +13,7 @@
 </div>
 
 
-<div class="row" ng-init="buildLink()">
+<div class="row" ng-init="init()">
 
   <div class="col-md-8 col-md-push-2">
     <!--Body content-->
@@ -25,6 +25,7 @@
             <th class="text-center">Lien du tirage</th>
             <th class="text-center">Code secret</th>
             <th class="text-center row">Status</th>
+            <th class="text-center row">notifié</th>
           </tr>
         </thead>
         <tbody>
@@ -33,6 +34,7 @@
             <td class="text-center"><a ng-href="{{candidat.link}}">{{candidat.link}}</a></td>
             <td class="text-center">{{candidat.secureCode}}</td>
             <td class="text-center row">{{candidat.numero}}</td>
+            <td class="text-center row">{{candidat.notificationEnabled}}</td>
           </tr>
         </tbody>
       </table>

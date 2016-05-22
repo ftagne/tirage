@@ -25,11 +25,16 @@
 
       <div class="form-group" ng-repeat="candidat in candidats">
         <!-- <div class="form-inline"> -->
-        <div class="col-sm-6">
+        <div class="col-sm-5">
           <input type="text" class="form-control" ng-model="candidat.email" placeholder="email du participant">
         </div>
-        <div class="col-sm-5">
+        <div class="col-sm-4">
           <input type="text" class="form-control" ng-model="candidat.secureCode" placeholder="Code secret">
+        </div>
+        <div class=" col-sm-2 checkbox">
+          <label>
+          <input type="checkbox"  ng-model="candidat.admin"> Admin
+        </label>
         </div>
 
         <div class="col-sm-1" style="padding: 5px 5px 1px 1px; width: auto;">

@@ -65,7 +65,7 @@ app.config(['$routeProvider',
       templateUrl: 'home/home.html',
       controller: 'homeCtrl'
     }).
-    when('/tirage-dashboard', {
+    when('/tirage-dashboard/:company', {
       templateUrl: 'tirageDashboard/tirage-dashboard.html',
       controller: 'tirage-dashboardCtrl'
     }).
@@ -76,6 +76,10 @@ app.config(['$routeProvider',
     when('/tirage/:company/:email', {
       templateUrl: 'tirage/tirage.html',
       controller: 'tirageCtrl'
+    }).
+    when('/consulter', {
+      templateUrl: 'consulter/consulter.html',
+      controller: 'consulterCtrl'
     }).
     when('/mode-emploi', {
       templateUrl: 'modeEmploi/mode-emploi.html'
