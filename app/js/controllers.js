@@ -79,12 +79,13 @@ tirageControllers.controller('homeCtrl', ['$scope', '$rootScope', '$routeParams'
                   };
             Tirages.save({
                     'createtirage': JSON.stringify(userList)
-                }, function success() {
+                }, function success(data) {
                     fAlert.success("enregistrer avec succes !", {
                         timeout: 3000
                     });
                     //backup for next page
-                    $location.path('/tirage-dashboard');
+                    $log.info(data.company);
+                    $location.path('/tirage-dashboard/' + data.company );
                 },
                 function error(e) {
                     $log.info(e);
